@@ -6,29 +6,33 @@ export default class App extends React.Component{
    super();
    this.state={
      currentTime:0.1,
-     isPaused:false,
+     media:"Stop",
+     title:"Start"
    }
   }
   render(){
    this.handle_press=()=>{
     this.setState({
-      currentTime:25,
+      currentTime:0.1,
+      media:"Reset",
+      title:"Start",
       });
     
   }
-
-  return (
-    <View style={styles.container}>
-      <View   style={styles.elements}>
+ 
+    this.handle_new_press=()=>{
+      this.setState((state)=>({media:state.title,title:(state.title==="Start"?"Stop":"Start"),}));
+    }
+    return (
+      <View style={styles.container}>
+      <Text style={styles.appName} >Pomodoro</Text>
+      <View style={styles.elements}>
           <Button title="Reset" onPress={this.handle_press} />
+          <Button title={this.state.title} onPress={this.handle_new_press} />
       </View>
-      <Text>Pomodoro</Text>
-	  <Timer style={styles.timer} props={this.state.isPaused}time={this.state.currentTime} />
+	  <Timer style={styles.timer} media={this.state.media}time={this.state.currentTime} />
     </View>
   );
-}
-componentDidUpdate(){
-  console.log(this.state.currentTime);
 }
 }
 
@@ -40,11 +44,18 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   elements:{
-    margin:10,
-
+    margin:15,
+    // backgroundColor:"black",
+    alignItems:"center",
+    flexBasis:105,
+    justifyContent:"space-around",
+    
   },
- timer:{
-         fontSize:48,
+  appName:{
+    fontSize:30,
+  },
+  timer:{
+    fontSize:48,
  }
 
 });

@@ -21,16 +21,25 @@ export default class countDownTimer extends React.Component{
                                 
                         }
         UNSAFE_componentWillReceiveProps(nextProps){
-        
+                console.log("Intimer: "+nextProps.media);
+                if(nextProps.media=="Stop"){
+                        clearInterval(this.countDown);
+                }
+                else if(nextProps.media=="Start"){
+                        clearInterval(this.countDown);
+                        this.interval();
+                }
+                else{
+
                         this.setState(()=>({
                                 time:nextProps.time*60,
                         }));
                         clearInterval(this.countDown);
-                        this.interval();
+                }
                
         }                                                                                           
         componentDidMount(){
-                if(this.props.time>0)
+                if(this.props.time>0 && this.props.media=="Start")
                 this.interval();
         }
         componentWillUnmount(){
