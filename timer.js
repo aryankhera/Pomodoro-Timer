@@ -6,8 +6,8 @@ export default class countDownTimer extends React.Component{
                 super(props);
                 this.state={
                         time:props.time*60,
-                        buffer:0.2,
-                        break:0.2,
+                        buffer:5,
+                        break:5,
                 }
         }
         componentDidUpdate(){
@@ -15,6 +15,7 @@ export default class countDownTimer extends React.Component{
                         clearInterval(this.countDown);
                         vibrate();
                         this.setState((state)=>({time:state.buffer*60,buffer:state.buffer===state.break?this.props.time:state.break,}));
+                        if(this.props.media==="Start")
                         this.interval();                                                                            
                 }                                                                                        
         }
@@ -27,7 +28,6 @@ export default class countDownTimer extends React.Component{
                                 
                         }
         UNSAFE_componentWillReceiveProps(nextProps){
-                console.log("Intimer: "+nextProps.media);
                 if(nextProps.media=="Stop"){
                         clearInterval(this.countDown);
                 }
@@ -58,7 +58,7 @@ export default class countDownTimer extends React.Component{
                 return(
                         <View style={{alignItems:"center"}}>
                 <Text style={this.props.style}>{this.state.break!==this.state.buffer?"Break":"Task"}</Text>
-                <Text style={this.props.style}>{doubleDigitFormat(this.state.time/60)+":"+doubleDigitFormat(this.state.time%60)}</Text>                                                                  
+                <Text style={this.props.style}>{parseInt(this.state.time/60)+":"+doubleDigitFormat(this.state.time%60)}</Text>                                                                  
                         </View>
                 );                                                                                              
         }
